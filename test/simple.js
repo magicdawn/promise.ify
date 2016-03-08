@@ -25,6 +25,22 @@ describe('should work', function(done) {
       .catch(done);
   });
 
+  it('multi result', function(done) {
+    var fn = promiseify(function(cb) {
+      setTimeout(function() {
+        cb(null, 0, 1);
+      }, 10);
+    });
+
+    fn()
+      .then(function(res) {
+        res[0].should.equal(0);
+        res[1].should.equal(1);
+        done();
+      })
+      .catch(done);
+  });
+
   it('auto this', function(done) {
     var ctx = {
       name: 'foo',
@@ -53,5 +69,35 @@ describe('should work', function(done) {
         done();
       })
       .catch(done);
+  });
+});
+
+describe('error should be reported', function() {
+  it('promiseify none function', function() {
+    try {
+      promiseify('a');
+    } catch (e) {
+      e.message.should.equal('a is not a function');
+    }
+  });
+
+  it('reject first arg err', function(done) {
+    promiseify(function(cb) {
+      setTimeout(function() {
+        cb(new Error('boom'));
+      }, 10);
+    })().catch(function(e) {
+      e.message.should.equal('boom');
+      done();
+    });
+  });
+
+  it('reject fn runtime error', function(done) {
+    promiseify(function(cb) {
+      throw new Error('blabla');
+    })().catch(function(e) {
+      e.message.should.equal('blabla');
+      done();
+    });
   });
 });
