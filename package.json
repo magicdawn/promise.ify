@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/magicdawn/promise.ify#readme",
   "devDependencies": {
+    "coveralls": "^2.11.8",
     "eslint": "^2.3.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
