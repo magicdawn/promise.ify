@@ -1,6 +1,6 @@
 {
   "name": "promise.ify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "promise,ify,promisify",
   "main": "index.js",
   "scripts": {
