@@ -10,7 +10,7 @@ var promiseify = exports = module.exports = function(m, ctx) {
   return function() {
 
     var args = [].slice.call(arguments);
-    ctx = ctx || this;
+    var _ctx = ctx || this; // do not modify ctx
 
     return new Promise(function(resolve, reject) {
       args.push(function(e, res) {
@@ -26,7 +26,7 @@ var promiseify = exports = module.exports = function(m, ctx) {
       });
 
       try {
-        m.apply(ctx, args);
+        m.apply(_ctx, args);
       } catch (e) {
         reject(e);
       }

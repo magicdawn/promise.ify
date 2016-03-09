@@ -101,3 +101,41 @@ describe('error should be reported', function() {
     });
   });
 });
+
+describe('work when `this` changes', function() {
+  it('instance call prototype promiseified fn', function(done) {
+    function T(name) {
+      this.name = name;
+    }
+
+    T.prototype.fn = function(cb) {
+      var self = this;
+      setTimeout(function() {
+        cb(null, self.name);
+      }, 10);
+    };
+    T.prototype.fnAsync = promiseify(T.prototype.fn);
+
+    var times = 0;
+    var done2 = function done2() {
+      times++;
+      if (times === 2) done();
+    };
+
+    var foo = new T('foo');
+    foo.fnAsync()
+      .then(function(res) {
+        res.should.equal('foo');
+        done2();
+      })
+      .catch(done);
+
+    var bar = new T('bar');
+    bar.fnAsync()
+      .then(function(res) {
+        res.should.equal('bar');
+        done2();
+      })
+      .catch(done);
+  });
+});
