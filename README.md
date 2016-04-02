@@ -19,7 +19,7 @@ $ npm i promise.ify --save
 
 ```js
 var promiseify = require('promise.ify');
-var fs = promiseify(require('fs'));
+var readFile = promiseify(fs.readFile, fs);
 
 var Connection = require('mysql/lib/Connection');
 promiseify.all(Connection.prototype);
