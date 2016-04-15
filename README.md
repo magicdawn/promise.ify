@@ -1,8 +1,8 @@
 # promise.ify
-> promiseify
+> promiseify / promisify / promise-ify / pify
 
-[![Build Status](https://travis-ci.org/magicdawn/promise.ify.svg?style=flat-square)](https://travis-ci.org/magicdawn/promise.ify)
-[![Coverage Status](https://coveralls.io/repos/github/magicdawn/promise.ify/badge.svg?branch=master&style=flat-square)](https://coveralls.io/github/magicdawn/promise.ify?branch=master)
+[![Build Status](https://img.shields.io/travis/magicdawn/promise.ify.svg?style=flat-square)](https://travis-ci.org/magicdawn/promise.ify)
+[![Coverage Status](https://img.shields.io/coveralls/magicdawn/promise.ify.svg?style=flat-square)](https://coveralls.io/github/magicdawn/promise.ify?branch=master)
 [![npm version](https://img.shields.io/npm/v/promise.ify.svg?style=flat-square)](https://www.npmjs.com/package/promise.ify)
 [![npm downloads](https://img.shields.io/npm/dm/promise.ify.svg?style=flat-square)](https://www.npmjs.com/package/promise.ify)
 [![npm license](https://img.shields.io/npm/l/promise.ify.svg?style=flat-square)](http://magicdawn.mit-license.org)
@@ -17,6 +17,14 @@ $ npm i promise.ify --save
 
 ## API
 
+### promiseify
+
+- promiseify(m, ctx)
+    - m: the input
+    - ctx: the context
+- promiseify.all(o)
+    - o: the input object
+
 ```js
 var promiseify = require('promise.ify');
 var readFile = promiseify(fs.readFile, fs);
@@ -24,6 +32,15 @@ var readFile = promiseify(fs.readFile, fs);
 var Connection = require('mysql/lib/Connection');
 promiseify.all(Connection.prototype);
 ```
+
+### promiseify.noerr
+take care of the `callback(result)` case
+
+- promiseify.noerr(m, ctx)
+    - m: the input method
+    - ctx: the context
+- promiseify.noerr.all(o)
+    - o: the input object
 
 ## Why
 
