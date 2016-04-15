@@ -139,3 +139,23 @@ describe('work when `this` changes', function() {
       .catch(done);
   });
 });
+
+describe('noerr works', function() {
+  it('pify.noerr', function(done) {
+    var sleep = function(ms, cb) {
+      setTimeout(function() {
+        cb(ms);
+      }, ms);
+    };
+
+    var sleepAsync = promiseify.noerr(sleep);
+    sleepAsync(10)
+      .then(function(x) {
+        x.should.equal(10);
+        done();
+      })
+      .catch(function(e) {
+        should(e).not.exists();
+      });
+  });
+});

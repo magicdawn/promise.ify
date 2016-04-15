@@ -1,50 +1,93 @@
 'use strict';
 
 /**
- * promiseify
+ * promiseify factory
  */
 
-var promiseify = exports = module.exports = function(m, ctx) {
-  if (typeof m !== 'function') throw new Error(String(m) + ' is not a function');
+var pifyFactory = function(executor) {
+  return function promiseify(m, ctx) {
+    if (typeof m !== 'function') throw new Error(String(m) + ' is not a function');
 
-  return function() {
+    return function() {
+      var args = [].slice.call(arguments);
+      var _ctx = ctx || this; // do not modify ctx
 
-    var args = [].slice.call(arguments);
-    var _ctx = ctx || this; // do not modify ctx
-
-    return new Promise(function(resolve, reject) {
-      args.push(function(e, res) {
-        if (e) return reject(e);
-
-        // one result
-        if (arguments.length <= 2) {
-          return resolve(res);
-        } else {
-          // more
-          return resolve([].slice.call(arguments, 1));
+      return new Promise(function(resolve, reject) {
+        try {
+          executor(m, _ctx, args, resolve, reject);
+        } catch (e) {
+          reject(e);
         }
       });
-
-      try {
-        m.apply(_ctx, args);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  };
+    };
+  }
 };
 
 /**
- * promiseify.all
+ * all factory
  */
 
-promiseify.all = function(obj) {
-  Object.keys(obj)
-    .filter(function(m) {
-      return typeof obj[m] === 'function';
-    })
-    .forEach(function(m) {
-      obj[m + 'Async'] = promiseify(obj[m]);
-    });
-  return obj;
+var allFactory = function(pify) {
+  return function(obj) {
+    Object.keys(obj)
+      .filter(function(m) {
+        return typeof obj[m] === 'function';
+      })
+      .forEach(function(m) {
+        obj[m + 'Async'] = pify(obj[m]);
+      });
+    return obj;
+  };
 };
+
+
+/**
+ * node style promiseify
+ */
+
+var pify = pifyFactory(function(m, ctx, args, resolve, reject) {
+  args.push(function(err, res) {
+    if (err) return reject(err);
+
+    // one result
+    if (arguments.length <= 2) {
+      return resolve(res);
+    } else {
+      // more
+      return resolve([].slice.call(arguments, 1));
+    }
+  });
+
+  m.apply(ctx, args);
+});
+
+/**
+ * node style promiseifyAll
+ */
+
+pify.all = allFactory(pify);
+
+
+/**
+ * noerr
+ */
+
+var noerr = pifyFactory(function(m, ctx, args, resolve, reject) {
+  args.push(function(res) {
+    resolve(arguments.length <= 1 ? res : [].slice.call(arguments))
+  });
+  m.apply(ctx, args);
+});
+
+/**
+ * noerr all
+ */
+
+noerr.all = allFactory(noerr);
+
+/**
+ * exports
+ */
+
+module.exports = pify;
+module.exports.noerr = noerr;
