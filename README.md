@@ -46,6 +46,9 @@ take care of the `callback(result)` case
 
 for split things out of bluebird
 
+## Changelog
+[CHANGELOG.md](CHANGELOG.md)
+
 ## See Also
 
 - [promise.ify](https://github.com/magicdawn/promise.ify)
