@@ -27,10 +27,10 @@
   "homepage": "https://github.com/magicdawn/promise.ify#readme",
   "devDependencies": {
     "coveralls": "^2.11.8",
-    "eslint": "^2.3.0",
+    "eslint": "^3.19.0",
     "istanbul": "^0.4.2",
-    "mocha": "^2.4.5",
-    "should": "^8.2.2"
+    "mocha": "^3.2.0",
+    "should": "^11.2.1"
   },
   "files": [
     "index.js",
