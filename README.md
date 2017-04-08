@@ -1,4 +1,6 @@
 # promise.ify
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/magicdawn/promise.ify.svg)](https://greenkeeper.io/)
 > promiseify / promisify / promise-ify / pify
 
 [![Build Status](https://img.shields.io/travis/magicdawn/promise.ify.svg?style=flat-square)](https://travis-ci.org/magicdawn/promise.ify)
