@@ -3,9 +3,11 @@
   "version": "0.3.0",
   "description": "promiseify / promisify / promise-ify / pify",
   "main": "index.js",
+  "types": "types/index.d.ts",
   "scripts": {
-    "test": "mocha",
-    "test-cover": "istanbul cover _mocha -- -u exports"
+    "test": "mocha && tsd",
+    "test-cover": "nyc --reporter=lcov --reporter=text mocha",
+    "report-cover": "codecov"
   },
   "repository": {
     "type": "git",
@@ -26,16 +28,37 @@
   },
   "homepage": "https://github.com/magicdawn/promise.ify#readme",
   "devDependencies": {
+    "@magicdawn/eslint-config": "latest",
+    "@magicdawn/prettier-config": "latest",
+    "codecov": "^3.3.0",
     "coveralls": "^2.11.8",
-    "eslint": "^2.3.0",
+    "eslint": "^6.8.0",
+    "husky": "latest",
     "istanbul": "^0.4.2",
-    "mocha": "^2.4.5",
-    "should": "^8.2.2"
+    "lint-staged": "latest",
+    "mocha": "^6.1.4",
+    "nyc": "^14.0.0",
+    "prettier": "latest",
+    "should": "^13.2.3",
+    "tsd": "^0.13.1",
+    "typescript": "^4.0.2"
   },
   "files": [
     "index.js",
+    "types/index.d.ts",
     "LICENSE",
     "package.json",
     "README.md"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,less,vue}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
 }
