@@ -1,5 +1,10 @@
 # Changelog
 
+## 2020-11-01 v0.4.0
+
+- add types/index.d.ts
+- disable tsd due to https://github.com/SamVerschueren/tsd/issues/85
+
 ## 2016-04-15 v0.3.0
 
 - 增加 `pify.noerr()` & `pify.noerr.all()` see [#1](../../issues/1)
