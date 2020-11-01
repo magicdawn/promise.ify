@@ -1,6 +1,6 @@
 {
   "name": "promise.ify",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "promiseify / promisify / promise-ify / pify",
   "main": "index.js",
   "types": "types/index.d.ts",
